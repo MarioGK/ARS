@@ -1,0 +1,29 @@
+<reactiveUi:ReactiveWindow x:TypeArguments="vm:MainWindowViewModel" xmlns="https://github.com/avaloniaui"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:reactiveUi="http://reactiveui.net"
+                           xmlns:dialogHost="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+                           xmlns:vm="clr-namespace:Store.UI.POS.ViewModels"
+                           xmlns:behaviours="clr-namespace:Store.UI.Behaviours;assembly=Store.UI"
+                           mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                           Width="1280"
+                           Height="780"
+                           x:Class="Store.UI.POS.Views.MainWindow"
+                           Icon="/Assets/avalonia-logo.ico"
+                           Title="Store.UI.POS">
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <i:Interaction.Behaviors>
+        <behaviours:MainWindowKeyBehaviour />
+    </i:Interaction.Behaviors>
+
+    <dialogHost:DialogHost Identifier="MainDialogHost" DialogMargin="16" dialogHost:DialogHostStyle.CornerRadius="8">
+
+        <reactiveUi:RoutedViewHost Router="{Binding Router}" />
+    </dialogHost:DialogHost>
+
+</reactiveUi:ReactiveWindow>

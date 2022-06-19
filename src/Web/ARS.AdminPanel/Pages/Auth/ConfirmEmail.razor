@@ -1,0 +1,20 @@
+﻿@layout AuthenticationLayout
+@page "/Auth/ConfirmEmail"
+
+<MudCardContent>
+    <MudTextField @bind-Value="Old" Label="Codigo enviado pelo email" Required="true" RequiredError="Codigo nao pode ser ficar vazio"/>
+</MudCardContent>
+<MudCardActions>
+    <MudButton
+        Class="ml-auto"
+        Variant="Variant.Filled"
+        Color="Color.Primary">
+        Confirmar
+    </MudButton>
+</MudCardActions>
+
+@code {
+    public string? New { get; set; }
+    public string? Old { get; set; }
+    public bool RememberMe { get; set; }
+}

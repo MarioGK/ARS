@@ -1,0 +1,17 @@
+﻿@using ARS.Web.Components.Charts.Models
+<div class="mud-chart-legend">
+    @foreach (var item in Items)
+    {
+        <div class="mud-chart-legend-item">
+            <span class="mud-chart-legend-marker" style="@($"background-color:{item.Color}")"></span>
+            <MudText Typo="Typo.body2" Inline="true">@item.Label</MudText>
+        </div>
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    [EditorRequired]
+    public IEnumerable<BaseChartItem> Items { get; set; } = null!;
+}

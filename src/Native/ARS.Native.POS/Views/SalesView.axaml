@@ -1,0 +1,237 @@
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="viewModels:SalesViewModel" xmlns="https://github.com/avaloniaui"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                xmlns:reactiveUi="http://reactiveui.net"
+                                xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+                                xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+                                xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+                                xmlns:viewModels="clr-namespace:Store.UI.POS.ViewModels"
+                                xmlns:behaviours="clr-namespace:Store.UI.Behaviours;assembly=Store.UI"
+                                mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                                x:Class="Store.UI.POS.Views.SalesView">
+    <Design.DataContext>
+        <viewModels:SalesViewModel />
+    </Design.DataContext>
+
+    <reactiveUi:ReactiveUserControl.Styles>
+        <Style Selector="TextBlock.command">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
+    </reactiveUi:ReactiveUserControl.Styles>
+
+    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,*,Auto" ShowGridLines="False">
+        <!-- Column 0 Row 0 -->
+        <!-- Top Background -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="{DynamicResource PrimaryHueDarkBrush}" />
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Left"
+            Margin="5,0"
+            Orientation="Horizontal">
+            <ProgressBar Classes="Circle" IsIndeterminate="True" Margin="0,0,10,0" Background="White"
+                         Foreground="{DynamicResource PrimaryHueLightBrush}" />
+            <TextBlock Text="Sincronizando ..." TextAlignment="Center" FontSize="16" VerticalAlignment="Center" />
+        </StackPanel>
+        <!-- Column 0 Row 1 -->
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <TextBlock FontWeight="Bold" FontSize="18" Text="Comandos:" />
+            <TextBlock Classes="command" Text="Numero * Quantidade" />
+            <TextBlock Classes="command" Text="hahsas" />
+            <TextBlock Classes="command" Text="hahsas" />
+            <TextBlock Classes="command" Text="hahsas" />
+            <TextBlock Classes="command" Text="hahsas" />
+            <TextBlock Classes="command" Text="hahsas" />
+        </StackPanel>
+        <!-- Buttons -->
+        <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Comando:" Margin="4,4,4,4" />
+                <TextBlock Text="24*" Margin="4,4,4,4" />
+            </StackPanel>
+            <Button
+                Command="{Binding ConsultProduct}"
+                FontSize="12"
+                Margin="4,0,0,4">
+                <TextBlock Text="Consultar Preco [F3]" FontSize="12" />
+            </Button>
+            <Button
+                Background="Green"
+                Command="{Binding ConsultProduct}"
+                Margin="4,0,0,4">
+                <TextBlock Text="Finalizar Compra [Enter]" FontSize="12" />
+            </Button>
+        </StackPanel>
+        <!-- Column 1 Row 0 -->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            FontWeight="Medium"
+            FontSize="18"
+            Text="{Binding UserName}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center" />
+        <Menu Grid.Column="1" HorizontalAlignment="Right"
+              Grid.Row="0" Height="32" Padding="0" Margin="0">
+            <MenuItem Height="32" Width="32" Header="{avalonia:MaterialIconExt DotsVertical, Size=24}">
+                <MenuItem Header="Hello!">
+                    <MenuItem.Icon>
+                        <avalonia:MaterialIcon Kind="Hand" Width="24" Height="24" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Action 1" />
+                <Separator />
+                <MenuItem Header="Logout" Command="{Binding Logout}">
+                    <MenuItem.Icon>
+                        <avalonia:MaterialIcon Kind="ExitRun" Width="24" Height="24" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <!-- Column 1 Row 1 -->
+        <ScrollViewer Grid.Column="1" Grid.Row="1" AllowAutoHide="True">
+            <i:Interaction.Behaviors>
+                <behaviours:AutoScrollBehavior />
+            </i:Interaction.Behaviors>
+            <StackPanel>
+                <ItemsControl Items="{Binding Products, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="Auto,*,Auto,Auto,Auto"
+                                HorizontalAlignment="Stretch"
+                                Margin="10,5,10,0"
+                                VerticalAlignment="Top">
+                                <Image
+                                    Height="42"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,10,0"
+                                    Source="../Assets/Icon.png"
+                                    VerticalAlignment="Center"
+                                    Width="38" />
+                                <TextBlock
+                                    FontSize="25"
+                                    Grid.Column="1"
+                                    Text="{Binding Name}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center" />
+                                <TextBlock
+                                    FontSize="20"
+                                    Grid.Column="2"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding PriceFormatted }" />
+                                <NumericUpDown
+                                    Grid.Column="3"
+                                    Height="10"
+                                    Minimum="1"
+                                    AllowSpin="True"
+                                    ClipValueToMinMax="True"
+                                    Margin="5,0,5,0"
+                                    Value="{Binding Quantity}"
+                                    MaxWidth="140"
+                                    MinWidth="90">
+                                    <i:Interaction.Behaviors>
+                                        <behaviours:DisableKeys IgnoreModifiers="True">
+                                            <behaviours:DisableKeys.Keys>
+                                                <Key>Enter</Key>
+                                            </behaviours:DisableKeys.Keys>
+                                        </behaviours:DisableKeys>
+                                    </i:Interaction.Behaviors>
+                                </NumericUpDown>
+                                <Button
+                                    Background="Red"
+                                    Classes="TransparentBack ConstantForeground ImplicitForeground"
+                                    Grid.Column="4"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding DataContext.Remove, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding }"
+                                    assists:ButtonAssist.CornerRadius="16">
+                                    <avalonia:MaterialIcon
+                                        Height="20"
+                                        Kind="Close"
+                                        Width="20" />
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <!-- Column 0-2 Row 2 -->
+        <!-- Bottom Background -->
+        <Border
+            Background="{DynamicResource PrimaryHueDarkBrush}"
+            Grid.ColumnSpan="2"
+            Grid.Column="0"
+            Grid.Row="2" />
+        <!-- General Information -->
+        <Grid Grid.Column="0"
+              Grid.Row="2"
+              ColumnDefinitions="5*,Auto">
+            <Grid
+                ColumnDefinitions="Auto,*"
+                Margin="5"
+                RowDefinitions="*,*,*">
+                <TextBlock FontWeight="Medium" VerticalAlignment="Center">
+                    Total de Items:
+                </TextBlock>
+                <TextBlock
+                    FontWeight="Medium"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding TotalProducts}"
+                    VerticalAlignment="Center" />
+                <TextBlock
+                    FontWeight="Medium"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    VerticalAlignment="Center">
+                    Items Unicos:
+                </TextBlock>
+                <TextBlock
+                    FontWeight="Medium"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="{Binding TotalUniqueProducts}"
+                    VerticalAlignment="Center" />
+                <TextBlock
+                    FontWeight="Medium"
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Margin="0,0,5,0"
+                    VerticalAlignment="Center">
+                    Total de Desconto:
+                </TextBlock>
+                <TextBlock
+                    FontWeight="Medium"
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    VerticalAlignment="Center">
+                    10
+                </TextBlock>
+            </Grid>
+        </Grid>
+        <!-- Total -->
+        <TextBlock
+            Grid.Column="1"
+            Grid.Row="2"
+            FontSize="30"
+            FontWeight="Medium"
+            HorizontalAlignment="Right"
+            Margin="10"
+            Text="{Binding TotalPriceFormatted}"
+            VerticalAlignment="Center" />
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Text="MGK POS V1.0.1" FontSize="12"
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+    </Grid>
+</reactiveUi:ReactiveUserControl>

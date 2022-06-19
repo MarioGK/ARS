@@ -1,0 +1,38 @@
+﻿@namespace ARS.Web.Components.Charts.Parts
+
+<div
+    class="pa-2"
+    style="
+    position: absolute; 
+    left: @(X)px; 
+    top: @(Y)px; 
+    background: rgba(55, 55, 64,0.85);
+    border: @(Color) solid 0.2rem;
+    border-radius: 8px;
+    pointer-events: none; 
+    transition: 0.8s;
+    transform-origin: center;
+    transform: translate(20px, -50%);">
+    <div>
+        <MudText Style="font-size: 1rem; font-weight: bold">@Label</MudText>
+        <MudText Style="font-size: 1rem;" Typo="Typo.body2">@Value</MudText>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public int X { get; set; }
+    
+    [Parameter]
+    public int Y { get; set; }
+    
+    [Parameter]
+    public string Value { get; set; }
+    
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public string Color { get; set; }
+}

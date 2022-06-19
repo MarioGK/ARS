@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase
+@inject ILocalStorageService LocalStorageService
+
+<MudThemeProvider @bind-IsDarkMode="DarkMode"/>
+<MudDialogProvider FullWidth="true" />
+<MudSnackbarProvider/>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="d-flex align-center" Style="height: 100vh;">
+    <div class="d-flex flex-column mud-width-full">
+        <MudPaper Elevation="25" Class="pa-2" Width="100%">
+                <MudCardHeader Class="d-flex mb-4 flex-row align-center">
+                    <img 
+                        src="_content/Store.Web/images/MGKLogo.svg" 
+                        alt="Logo"
+                        class="mx-4" 
+                        style="height:130px; 
+                        width:auto;"/>
+                    <MudText 
+                        Typo="Typo.h2" 
+                        Class="ml-auto">
+                        Name Here
+                    </MudText>
+                </MudCardHeader>
+            <MudDivider DividerType="DividerType.Middle" Class="my-2"/>
+            @Body
+        </MudPaper>
+    </div>
+</MudContainer>
+
+@code {
+    public bool DarkMode { get; set; } = true;
+}

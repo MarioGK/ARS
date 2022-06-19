@@ -1,0 +1,19 @@
+﻿@layout AuthenticationLayout
+@page "/Auth/Forgot"
+
+<MudCardContent>
+    <MudText Typo="Typo.h6">Recuperação de senha:</MudText>
+    <MudTextField @bind-Value="Email" Label="Email" Required="true" RequiredError="Email nao pode ser ficar vazio" InputType="InputType.Email"/>
+</MudCardContent>
+<MudCardActions>
+    <MudButton
+        Class="ml-auto"
+        Variant="Variant.Filled"
+        Color="Color.Primary">
+        Enviar link de recuperação
+    </MudButton>
+</MudCardActions>
+
+@code {
+    public string? Email { get; set; }
+}

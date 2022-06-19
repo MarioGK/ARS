@@ -1,0 +1,58 @@
+﻿@inherits AutoComponentBase<BaseType>
+@using System.Reflection
+@using LiteDB.Async
+@implements IBuildableComponent
+@inject ILiteDatabaseAsync Database
+
+<h3>@TypeName</h3>
+
+@if (Items == null)
+{
+    <MudProgressCircular Indeterminate="true" Color="Color.Primary"/>
+}
+else
+{
+    @if (Items.Any())
+    {
+        <MudSelect Label="@LabelName"
+                   ValueChanged="ValueChanged"
+                   Value="Value"
+                   OffsetY="true">
+            @foreach (var item in Items!)
+            {
+                <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+            }
+        </MudSelect>
+    }
+    else
+    {
+        <MudText Color="Color.Error">Nenhum tipo de @LabelName cadastrado</MudText>
+    }
+}
+
+@code {
+
+    public List<BaseType>? Items { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO
+        /*var collection = Database.GetCollection<BaseType>(TypeName.GetCollectionName());
+        
+        if (collection == null)
+        {
+            Console.WriteLine("Collection is null");
+            return;
+        }
+        
+        var items = await collection.FindAllAsync();
+        Items = items.ToList();*/
+    }
+
+    public int Priority => 1;
+    
+    public override bool CanBuild(PropertyInfo propertyInfo)
+    {
+        return propertyInfo.PropertyType.BaseType == typeof(BaseType);
+    }
+}

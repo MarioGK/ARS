@@ -1,0 +1,74 @@
+﻿@page "/"
+@using ARS.Web.Services
+@using ARS.Web.Components.Charts.Models
+@inject AutoDialogService DialogService
+
+<PageTitle>Index</PageTitle>
+<MudCard>
+    <DonutChart Items="Items" Height="300px" Width="300px"></DonutChart>
+</MudCard>
+
+<MudCard>
+    <BarChart Series="Series" Width="100%" Height="350px"></BarChart>
+</MudCard>
+
+<MudCard>
+    <LineChart Series="Series" Width="100%" Height="350px"></LineChart>
+</MudCard>
+
+@code {
+
+    public List<ChartItem> Items { get; set; } = new()
+    {
+        new ChartItem
+        {
+            Label = "Item 1",
+            Value = 10,
+            Color = Colors.Pink.Accent1
+        },
+        new ChartItem
+        {
+            Label = "Item 2",
+            Value = 20
+        },
+        new ChartItem
+        {
+            Label = "Item 3",
+            Value = 30
+        },
+        new ChartItem
+        {
+            Label = "Item 4",
+            Value = 40
+        }
+    };
+
+    public List<Series> Series = new()
+    {
+        new Series
+        {
+            Label = "Series 1",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            }
+        },
+        new Series
+        {
+            Label = "Series 2",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            }
+        },
+        new Series
+        {
+            Label = "Series 3",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            }
+        }
+    };
+
+}

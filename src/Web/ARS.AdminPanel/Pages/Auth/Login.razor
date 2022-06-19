@@ -1,0 +1,26 @@
+﻿@layout AuthenticationLayout
+@page "/Auth/Login"
+
+<MudCardContent>
+    <MudTextField @bind-Value="Username" Label="Login" Required="true" RequiredError="Login nao poder ficar"/>
+    <MudTextField @bind-Value="Password" Label="Senha" Required="true" RequiredError="Senha nao pode ser ficar vazia" InputType="InputType.Password"/>
+</MudCardContent>
+<MudCardActions>
+    <MudCheckBox
+        @bind-Checked="RememberMe"
+            Color="Color.Primary">
+            Lembrar-me
+        </MudCheckBox>
+    <MudButton
+        Class="ml-auto"
+        Variant="Variant.Filled"
+        Color="Color.Primary">
+        Login
+    </MudButton>
+</MudCardActions>
+
+@code {
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public bool RememberMe { get; set; }
+}

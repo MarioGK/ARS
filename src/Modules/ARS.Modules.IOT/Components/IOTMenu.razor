@@ -1,0 +1,16 @@
+﻿<MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="ml-4 my-3">Fitness</MudText>
+<MudNavLink Href="/Fitness/Dashboard" IconColor="Color.Success" Icon="@Icons.Filled.Dashboard">Dashboard</MudNavLink>
+<MudNavLink Href="/Fitness/Exercises" IconColor="Color.Warning" Icon="@Icons.Filled.FitnessCenter">Exercicios</MudNavLink>
+<MudNavLink Href="/Fitness/Students" IconColor="Color.Info" Icon="@Icons.Filled.AccountCircle">Alunos</MudNavLink>
+<MudNavLink Href="/Fitness/Messages" IconColor="Color.Primary" Icon="@Icons.Filled.Message">Mensagens</MudNavLink>
+
+<AuthorizeView Roles="Admin">
+    <MudNavGroup Title="Configurações" Icon="@Icons.Filled.Settings" @bind-Expanded="ConfigExpanded">
+        <MudNavLink Href="/Fitness/Config" Icon="@Icons.Filled.AccountBox" IconColor="Color.Info">Aluno Status</MudNavLink>
+    </MudNavGroup>
+</AuthorizeView>
+
+@code
+{
+    public bool ConfigExpanded { get; set; }
+}

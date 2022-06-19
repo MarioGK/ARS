@@ -1,0 +1,29 @@
+﻿@inherits AutoComponentBase<Subscription>
+@implements IBuildableComponent
+
+<MudText Class="mt-4">
+    Pagamento
+</MudText>
+
+<div class="d-flex align-center">
+    <MudText>
+        @Value?.ExpirationDate.ToString("dd/MM/yyyy")
+    </MudText>
+
+    <MudSpacer/>
+
+    <MudTooltip Text="Pagar">
+        <MudIconButton Icon="@Icons.Outlined.CalendarMonth" Color="Color.Primary" OnClick="PayOneMonth"/>
+    </MudTooltip>
+</div>
+
+@code {
+
+    public int Priority => 4;
+    
+    void PayOneMonth()
+    {
+        Value?.Pay();
+        StateHasChanged();
+    }
+}

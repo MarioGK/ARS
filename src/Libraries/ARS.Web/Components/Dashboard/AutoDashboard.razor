@@ -1,0 +1,164 @@
+﻿<PageTitle>Dashboard</PageTitle>
+<div class="d-flex flex-row align-center px-1 mb-2">
+    <MudText Typo="Typo.h4">Dashboard</MudText>
+    <MudSpacer/>
+    <MudDateRangePicker 
+        Style="display: none"
+        PickerVariant="PickerVariant.Dialog"
+        Rounded="true"
+        AdornmentColor="Color.Primary" 
+        Adornment="Adornment.Start"
+        Elevation="6"
+        @ref="_dateRangePicker"
+    />
+    <MudSpacer/>
+    <MudCard Elevation="Elevation">
+        <MudButton 
+                Variant="Variant.Filled"
+                StartIcon="@Icons.Filled.CalendarMonth"
+                Color="Color.Primary"
+                Style="border-radius: 10px;"
+                Class="px-2"
+                OnClick="OpenRangePicker"
+            >
+                <MudText>
+                    27/04/2020-28/04/2020
+                </MudText>
+            </MudButton>
+    </MudCard>
+</div>
+
+@if (Cards.Any())
+{
+    <MudGrid Justify="Justify.SpaceEvenly" Spacing="2">
+            @foreach (var card in Cards)
+            {
+                <MudItem xs="6" sm="6" md="3" lg="3">
+                    <DashCard Elevation="Elevation" Settings="card"/>
+                </MudItem>
+            }
+        </MudGrid>
+}
+
+<MudGrid Justify="Justify.SpaceBetween" Spacing="2" Class="mt-2">
+    <MudItem  xs="12" sm="12" md="6" lg="6">
+        <MudCard Class="pa-2" Elevation="Elevation" Style="height: 15rem;overflow: auto;">
+            <MudText Class="ml-2 mb-2" Typo="Typo.h6">Noticias:</MudText>
+            <MudList Dense="true" Clickable="true" Style="">
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+                <MudListItem Text="Restart soonTM" Icon="@Icons.Material.Filled.Info" IconColor="Color.Warning" />
+            </MudList>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="12" md="6" lg="6">
+        <MudCard Class="pa-4" Elevation="Elevation" Style="height: 15rem">
+            <MudText Class="mb-2" Typo="Typo.h6">Quick Actions:</MudText>
+
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true" Variant="Variant.Filled" StartIcon="@Icons.Filled.PlayCircle" IconColor="Color.Success">Start App</MudButton>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true" Variant="Variant.Filled" StartIcon="@Icons.Filled.Cancel" IconColor="Color.Error">Stop App</MudButton>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton FullWidth="true" Variant="Variant.Filled" StartIcon="@Icons.Filled.MonetizationOn" IconColor="Color.Success">Pay all customers</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="8" lg="8">
+        <MudCard Class="pa-2" Elevation="Elevation">
+            @*<BarChart Series="Series" Height="25rem"/>*@
+            <LineChart Series="Series" Height="25rem"/>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="4" lg="4">
+        <MudCard Class="pa-2" Elevation="Elevation">
+            <DonutChart Items="Items" Height="25rem"></DonutChart>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public List<DashCardSettings> Cards { get; set; } = null!;
+    
+    [Parameter]
+    public RenderFragment? Charts { get; set; }
+
+    private MudDateRangePicker _dateRangePicker;
+
+    [Parameter]
+    public int Elevation { get; set; } = 8;
+
+    void OpenRangePicker()
+    {
+        _dateRangePicker.Open();
+    }
+    
+    public List<Series> Series = new()
+    {
+        new Series
+        {
+            Label = "Series 1",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+            }
+        },
+        new Series
+        {
+            Label = "Series 2",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,50
+            }
+        },
+        new Series
+        {
+            Label = "Series 3",
+            Values = new List<double>
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,50
+            }
+        }
+    };
+    
+    public List<ChartItem> Items { get; set; } = new()
+    {
+        new ChartItem
+        {
+            Label = "Item 1",
+            Value = 10,
+            Color = Colors.Pink.Accent1
+        },
+        new ChartItem
+        {
+            Label = "Item 2",
+            Value = 20
+        },
+        new ChartItem
+        {
+            Label = "Item 3",
+            Value = 30
+        },
+        new ChartItem
+        {
+            Label = "Item 4",
+            Value = 40
+        }
+    };
+}

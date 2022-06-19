@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <UICulture>br-BR</UICulture>
+        <TargetCulture>br-BR</TargetCulture>
+        <CodeAnalysisCulture>br-BR</CodeAnalysisCulture>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Models\" />
+        <AvaloniaResource Include="Assets\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="System.Windows.Input" />
+        <Using Include="System.Windows.Markup" />
+        <Using Include="System.Reactive" />
+        <Using Include="System.Reactive.Linq" />
+
+        <Using Include="Avalonia" />
+        <Using Include="Avalonia.ReactiveUI" />
+        <Using Include="Avalonia.Controls" />
+        <Using Include="Avalonia.Controls.Templates" />
+        <Using Include="Avalonia.Controls.ApplicationLifetimes" />
+        <Using Include="Avalonia.Markup.Xaml" />
+        <Using Include="Avalonia.Markup.Xaml.Styling" />
+        <Using Include="Avalonia.Markup.Xaml.MarkupExtensions" />
+
+        <Using Include="Splat" />
+
+        <Using Include="ReactiveUI" />
+        <Using Include="ReactiveUI.Fody.Helpers" />
+
+        <Using Include="Store.UI.POS" />
+        <Using Include="Store.UI.POS.Models" />
+        <Using Include="Store.UI.POS.Views" />
+        <Using Include="Store.UI.POS.ViewModels" />
+
+        <Using Include="Store.UI" />
+        <Using Include="Store.UI.Extensions" />
+        <Using Include="Store.UI.ViewModels" />
+        <Using Include="Store.UI.Messages" />
+        <Using Include="Store.UI.Models" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.12" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.12" />
+        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12" />
+        <PackageReference Include="Material.Avalonia" Version="2.5.0.78-nightly" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
+        <PackageReference Include="ReactiveUI.Fody" Version="17.1.50" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Libraries\Store.UI\Store.UI.csproj" />
+        <ProjectReference Include="..\Store\Store.csproj" />
+    </ItemGroup>
+</Project>

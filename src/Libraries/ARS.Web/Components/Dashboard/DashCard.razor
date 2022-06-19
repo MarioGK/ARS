@@ -1,0 +1,24 @@
+﻿
+<MudPaper Class="d-flex flex-row pa-2 align-center" Elevation="Elevation">
+    <MudIcon Icon="@Settings.Icon" Color="@Settings.Color" Class="mr-4" Style="@IconStyle"/>
+    <div>
+        <MudText
+            Typo="Typo.subtitle1"
+            Class="mud-text-secondary mb-n1">
+            @Settings.Title
+        </MudText>
+        <MudText Typo="Typo.body1" Class="mr-4">@Settings.GetData()</MudText>
+    </div>
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public DashCardSettings Settings { get; set; } = null!;
+
+    [Parameter]
+    public int Elevation { get; set; }
+
+    private string IconStyle => $"width:{Settings.Size}rem; height:{Settings.Size}rem;";
+}

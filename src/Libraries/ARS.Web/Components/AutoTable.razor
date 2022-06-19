@@ -1,0 +1,159 @@
+﻿
+@typeparam T
+
+@inject ILiteDatabaseAsync Database
+@inject AutoDialogService AutoDialogService
+@inject AutoTableItemAddedService ItemAddedService
+
+@if (!Loading)
+{
+    <MudCard Elevation="2" Class="px-4 pb-4">
+        @*Title Content*@
+        <MudToolBar DisableGutters="true" Class="mx-2">
+            <MudText Typo="Typo.h6">@Title</MudText>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            <MudSpacer/>
+            @if (_searchable)
+            {
+                <MudTextField
+                    @bind-Value="SearchText"
+                    Placeholder="Pesquisar"
+                    Adornment="Adornment.Start"
+                    Immediate="true"
+                    DebounceInterval="150"
+                    AdornmentIcon="@Icons.Material.Filled.Search"
+                    IconSize="Size.Medium"
+                    Class="mt-0"/>
+            }
+            <MudDivider Vertical="true" Class="mx-4 my-2" FlexItem="true"/>
+            <MudIconButton Variant="Variant.Text" Icon="@Icons.Filled.Refresh" Size="Size.Medium" OnClick="Refresh"/>
+            @if (CanAdd)
+            {
+                <MudIconButton 
+                    OnClick="AddItem"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary" 
+                    Icon="@Icons.Outlined.Add"
+                    Class="ml-1 rounded-circle"/>
+            }
+        </MudToolBar>
+        @*Body*@
+        <MudSimpleTable
+            Bordered="true"
+            Striped="true"
+            Dense="true"
+            Hover="true"
+            Elevation="0"
+            Style="overflow-x: auto;">
+            @if (NoItems)
+            {
+                <MudText>Sem items ...</MudText>
+            }
+            else
+            {
+                <thead>
+                        <tr>
+                            @if (_selectable)
+                            {
+                                <th style="@_fitStyle">
+                                    <MudCheckBox Dense="true" T="bool" Checked="_selectedAll" CheckedChanged="SetAllSelected"/>
+                                </th>
+                            }
+                            @foreach (var header in Headers)
+                            {
+                                <th>
+                                    <strong>
+                                        @header
+                                    </strong>
+                                </th>
+                            }
+                            <th style="@_fitStyle">
+                                <strong>
+                                    Ações
+                                </strong>
+                            </th>
+                        </tr>
+                        </thead>
+                <tbody>
+                <MudVirtualize Items="ShowItems">
+                    <tr>
+                        @if (_selectable)
+                        {
+                            <td>
+                                <MudCheckBox T="bool" CheckedChanged="check => SetSelected(context, check)" Checked="GetSelected(context)" Dense="true"/>
+                            </td>
+                        }
+                        @foreach (var stringValue in GetStringValues(context))
+                        {
+                            <td>
+                                @stringValue
+                            </td>
+                        }
+                        <td>
+                            <div class="d-flex">
+                                <MudIconButton 
+                                    Variant="Variant.Text" 
+                                    Color="Color.Warning" 
+                                    Icon="@Icons.Filled.Edit" 
+                                    Size="Size.Medium"
+                                    Class="rounded-circle"
+                                    OnClick="() => EditAction(context)"/>
+                                <MudIconButton
+                                    Variant="Variant.Text"
+                                    Color="Color.Error"
+                                    Icon="@Icons.Filled.Delete"
+                                    Size="Size.Medium" 
+                                    OnClick="() => RemoveAction(context)"
+                                    Class="rounded-circle"/>
+                            </div>
+                        </td>
+                    </tr>
+                </MudVirtualize>
+                </tbody>
+            }
+        </MudSimpleTable>
+        @*Footer/Pager*@
+        @if (PagerEnabled)
+        {
+            <MudToolBar DisableGutters="true" Dense="false" Class="mx-2">
+                <div class="mud-table-pagination-spacer"></div>
+                <div class="mud-table-pagination-display">
+                    <div class="mud-table-pagination-caption">
+                        <div class="mud-table-pagination-information">Linhas por página</div>
+                    </div>
+                    <MudSelect @bind-Value="ItemsPerPage" Class="mud-table-pagination-select">
+                        <MudSelectItem Value="10"/>
+                        <MudSelectItem Value="25"/>
+                        <MudSelectItem Value="50"/>
+                        <MudSelectItem Value="100"/>
+                    </MudSelect>
+                </div>
+                <div class="mud-table-pagination-caption">
+                    <div class="mud-table-page-number-information">@(FirstItem + 1) - @LastItem de @AllItemsCount</div>
+                </div>
+                <div class="mud-table-pagination-actions">
+                    <MudIconButton Icon="@Icons.Material.Filled.FirstPage" OnClick="() => CurrentPage = 1"/>
+                    <MudIconButton Icon="@Icons.Material.Filled.NavigateBefore" OnClick="PreviousPage"/>
+                    <MudText Inline="true" Typo="Typo.body1">@CurrentPage/@PageCount</MudText>
+                    <MudIconButton Icon="@Icons.Material.Filled.NavigateNext" OnClick="NextPage"/>
+                    <MudIconButton Icon="@Icons.Material.Filled.LastPage" OnClick="() => CurrentPage = PageCount"/>
+                </div>
+            </MudToolBar>
+        }
+    </MudCard>
+}
+else
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Style="height: 20px" Animation="Animation.Wave" Class="my-2"/>
+    <MudSkeleton Animation="Animation.Wave"/>
+    <MudSkeleton Animation="Animation.Wave"/>
+    <MudSkeleton Animation="Animation.Wave"/>
+    <MudSkeleton Animation="Animation.Wave"/>
+    <MudProgressLinear Indeterminate="true" Color="Color.Default"/>
+}

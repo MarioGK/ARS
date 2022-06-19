@@ -1,0 +1,35 @@
+﻿@inherits AutoFormBase<T>
+@using LiteDB.Async
+@typeparam T where T : BaseData
+@inject ILiteDatabaseAsync LiteDatabaseAsync
+
+<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <MudForm Model="@Model" Style="overflow: auto; height: 100%">
+        <MudText Typo="Typo.h6" Class="mt-4 mx-4">@Title</MudText>
+        <div class="mx-4">
+            <AutoFields Model="@Model" @ref="AutoFields" Options="Options"/>
+        </div>
+        @*Footer*@
+        <div class="d-flex align-center justify-end ma-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="d-flex justify-end" ButtonType="ButtonType.Submit" Disabled="Loading" OnClick="OnValidSubmit">
+                @if (Loading)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                    <MudText Class="ms-2">Salvando ...</MudText>
+                }
+                else
+                {
+                    @if (AutoFields?.EditMode ?? false)
+                    {
+                        <div>Salvar</div>
+                    }
+                    else
+                    {
+                        <div>Criar</div>
+                    }
+                }
+            </MudButton>
+        </div>
+    </MudForm>
+</EditForm>

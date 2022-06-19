@@ -1,0 +1,42 @@
+﻿@inherits BaseChartItems
+@namespace ARS.Web.Components.Charts
+
+<div class="@Classname" style="@Style">
+    <svg class="mud-chart-donut" width="@Width" height="@Height" viewBox="0 0 42 42">
+        <Filters />
+        @*<circle class="mud-donut-ring" cx="20" cy="20" r="15.91549430918954" shape-rendering="geometricPrecision"></circle>*@
+        @foreach (var item in _circles.ToList())
+        {
+            <circle class="hoverColor mud-donut-segment"
+                    shape-rendering="geometricPrecision"
+                    stroke="@item.Color"
+                    cx="20"
+                    cy="20"
+                    r="@item.Radius.ToS()"
+                    @onclick="() => SelectedIndex = item.Index"
+                    @onmouseout="args => OnMouseOut(args, item)"
+                    @onmouseover="args => OnMouseHover(args, item)"
+                    @onmousemove="args => OnMouseMove(args, item)"
+                    stroke-dasharray="@item.StrokeDashArray"
+                    stroke-dashoffset="@item.StrokeDashOffset.ToS()">
+            </circle>
+        }
+        @*<circle class="mud-donut-hole" cx="21" cy="21" r="13.4"></circle>*@
+    </svg>
+    <ChartLegend Items="Items" />
+</div>
+<style>
+    .hoverColor:hover {
+        filter: brightness(115%);
+    }
+</style>
+
+@if (TooltipVisible)
+{
+    @Tooltip
+}
+
+@code
+{
+    //@(MudChartParent.ChartOptions.ChartPalette.GetValue(item.Index % ChartOptions.ChartPalette.Count()))
+}

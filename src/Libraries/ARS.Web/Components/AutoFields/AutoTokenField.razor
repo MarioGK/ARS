@@ -1,0 +1,64 @@
+﻿@using Microsoft.JSInterop
+@inherits AutoComponentBase<Token?>
+@implements IBuildableComponent
+
+@inject IJSRuntime JsRuntime
+
+<MudText Class="mt-4">
+    Token
+</MudText>
+
+<div class="d-flex align-center">
+    <MudText>
+        @ValueString
+    </MudText>
+
+    <MudSpacer/>
+
+    <MudTooltip Text="Atualizar chave">
+        <MudIconButton Icon="@Icons.Outlined.Refresh" Color="Color.Primary" OnClick="Refresh"/>
+    </MudTooltip>
+
+    <MudTooltip Text="Copiar chave">
+        <MudIconButton Icon="@Icons.Outlined.ContentPaste" Color="Color.Success" OnClick="Paste"/>
+    </MudTooltip>
+
+    <MudTooltip Text="Deletar chave">
+        <MudIconButton Icon="@Icons.Outlined.Close" Color="Color.Error" OnClick="Clear"/>
+    </MudTooltip>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public User User { get; set; } = null!;
+
+    string ValueString => Value?.TokenUID?.ToString() ?? Guid.Empty.ToString();
+
+    void Paste()
+    {
+        JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", ValueString);
+    }
+
+    async Task Refresh()
+    {
+        //Value ??= new ApiToken
+        //{
+        //    Owner = User
+        //};
+        //
+        Value = new Token();
+        //
+        await NotifyValueChanged();
+    }
+
+    async Task Clear()
+    {
+        Value = null;
+        await NotifyValueChanged();
+    }
+    
+
+    public int Priority => 4;
+
+}

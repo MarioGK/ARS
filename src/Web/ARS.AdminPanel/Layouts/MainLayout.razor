@@ -1,0 +1,80 @@
+﻿@inherits LayoutComponentBase
+@inject IConfiguration Configuration
+@inject ILocalStorageService LocalStorageService
+
+<MudThemeProvider @bind-IsDarkMode="DarkMode"/>
+<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.Medium" />
+<MudSnackbarProvider/>
+
+<PageTitle>AdminPanel</PageTitle>
+
+<MudLayout>
+    <MudAppBar Class="d-flex" Elevation="1" Dense="true" DisableGutters="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" Class="ml-1" OnClick="DrawerToggle"/>
+        <MudText Class="flex-grow-1">
+            @AppName
+        </MudText>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudAutocomplete
+            Style="border-radius: 6px"
+            Class="@SearchClass"
+            @bind-Value="SearchTerm"
+            AdornmentIcon="@Icons.Filled.Search"
+            Adornment="Adornment.Start"
+            Dense="true"
+            ResetValueOnEmptyText="true"
+            AdornmentColor="Color.Inherit"
+            Clearable="true"
+            CoerceValue="true"
+            CoerceText="true"
+            InputMode="InputMode.search"
+            Variant="Variant.Outlined"
+            AutoFocus="true"
+            DisableUnderLine="true"
+            Margin="Margin.Dense"
+            Immediate="true"
+            Placeholder="Pesquisar"/>
+        <MudDivider Class="ma-2" Vertical="true" FlexItem="true"/>
+        <MudIconButton Icon="@(DarkMode ? _lightIcon : _darkIcon)" Color="Color.Inherit" Edge="Edge.End" OnClick="ToggleDarkMode"/>
+        <MudIconButton Class="mx-1" Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" Link="/UserPage"/>
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Docked" Elevation="1" Variant="DrawerVariant.Responsive">
+        <NavigationMenu/>
+    </MudDrawer>
+    <MudMainContent Class="content">
+        <MudContainer MaxWidth="MaxWidth.False" Class="my-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    private bool DarkMode { get; set; } = true;
+
+    public string AppName => Configuration.GetValue<string>("Name");
+
+    private readonly string _lightIcon = Icons.Material.Filled.WbSunny;
+    private readonly string _darkIcon = Icons.Material.Outlined.Nightlight;
+
+    public string SearchTerm { get; set; }
+    private string SearchClass => $"mt-2 mb-2 d-none d-sm-flex {(DarkMode ? "" : "white")}";
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void ToggleDarkMode()
+    {
+        DarkMode = !DarkMode;
+    }
+
+}

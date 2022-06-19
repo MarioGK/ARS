@@ -1,0 +1,62 @@
+﻿@inherits BaseChartSeries
+@namespace ARS.Web.Components.Charts
+
+<div class="@Classname" style="@Style">
+    <svg class="mud-chart-line mud-ltr" width="@Width" height="@Height" viewBox="0 0 650 350">
+        <g class="mud-charts-grid">
+            <g class="mud-charts-gridlines-yaxis">
+                @foreach (var horizontalLine in _horizontalLines)
+                {
+                    <path stroke="#e0e0e0" stroke-width="0.3" d="@horizontalLine.Data"></path>
+                }
+            </g>
+            @if (true/*MudChartParent?.ChartOptions.XAxisLines==true*/)
+            {
+                <g class="mud-charts-gridlines-xaxis-lines">
+                    @foreach (var verticalLine in _verticalLines)
+                    {
+                        <path stroke="gray" stroke-width="0.3" d="@verticalLine.Data"></path>
+                    }
+                </g>
+            }
+        </g>
+        <g class="mud-charts-yaxis">
+            @foreach (var horizontalLineValue in _horizontalValues)
+            {
+                @((MarkupString)$"<text x='{horizontalLineValue.X.ToString(CultureInfo.InvariantCulture)}' y='{horizontalLineValue.Y.ToString(CultureInfo.InvariantCulture)}' font-size='12px' text-anchor='end' dominant-baseline='auto'>{horizontalLineValue.Value.ToString(CultureInfo.InvariantCulture)}</text>")
+            }
+        </g>
+        <g class="mud-charts-xaxis">
+            @foreach (var verticalLineValue in _verticalValues)
+            {
+                @((MarkupString)$"<text x='{verticalLineValue.X.ToString(CultureInfo.InvariantCulture)}' y='{verticalLineValue.Y.ToString(CultureInfo.InvariantCulture)}' font-size='12px' text-anchor='middle'>{verticalLineValue.Value.ToString(CultureInfo.InvariantCulture)}</text>")
+            }
+        </g>
+        <g class="mud-charts-line-series">
+            @foreach (var line in _chartLines)
+            {
+                <path
+                    class="hoverColor mud-chart-line"
+                    @onclick="() => SelectedIndex = line.Index"
+                    @onmouseout="args => OnMouseOut(args, line)"
+                    @onmouseover="args => OnMouseHover(args, line)"
+                    @onmousemove="args => OnMouseMove(args, line)"
+                    fill="none"
+                    stroke="@(GetColor(line.Index))"
+                    stroke-width="4"
+                    d="@line.Data">
+                </path>
+            }
+        </g>
+    </svg>
+</div>
+<style>
+    .hoverColor:hover {
+        filter: brightness(115%);
+    }
+</style>
+
+@if (TooltipVisible)
+{
+    @Tooltip
+}
